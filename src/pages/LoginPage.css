@@ -1,0 +1,197 @@
+/**
+ * Login Page Styles
+ * 
+ * Styling for the authentication page using design system tokens.
+ */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--color-background, #F2F1ED);
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--color-background-secondary, #FFFFFF);
+  border-radius: 0.75rem;
+  padding: 3rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-title {
+  font-family: var(--font-family-display, 'Qlassy', sans-serif);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #710014);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.25;
+}
+
+.login-subtitle {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 1rem;
+  color: var(--color-text-secondary, #4A4A4A);
+  margin: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-error {
+  padding: 0.75rem 1rem;
+  background-color: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  border-radius: 0.5rem;
+  color: #991B1B;
+  font-size: 0.875rem;
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #161616);
+}
+
+.form-input {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border, #D1D5DB);
+  border-radius: 0.5rem;
+  background-color: var(--color-background-secondary, #FFFFFF);
+  color: var(--color-text-primary, #161616);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary, #710014);
+  box-shadow: 0 0 0 3px rgba(113, 0, 20, 0.1);
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+.login-button {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary, #710014);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: var(--color-primary-hover, #8A0019);
+}
+
+.login-button:active:not(:disabled) {
+  background-color: var(--color-primary-active, #5A0010);
+  transform: scale(0.98);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.login-toggle {
+  font-family: var(--font-family-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  color: var(--color-primary, #710014);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.login-toggle:hover:not(:disabled) {
+  color: var(--color-primary-hover, #8A0019);
+}
+
+.login-toggle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-page {
+    background-color: var(--color-background-dark, #161616);
+  }
+
+  .login-container {
+    background-color: var(--color-background-dark-secondary, #1F1F1F);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  .login-title {
+    color: var(--color-primary-light, #8A0019);
+  }
+
+  .login-subtitle {
+    color: var(--color-text-secondary-dark, #A3A3A3);
+  }
+
+  .form-label {
+    color: var(--color-text-primary-dark, #F5F5F5);
+  }
+
+  .form-input {
+    border-color: var(--color-border-dark, #404040);
+    background-color: var(--color-background-dark-secondary, #1F1F1F);
+    color: var(--color-text-primary-dark, #F5F5F5);
+  }
+
+  .form-input:focus {
+    border-color: var(--color-primary-light, #8A0019);
+    box-shadow: 0 0 0 3px rgba(138, 0, 25, 0.2);
+  }
+
+  .login-toggle {
+    color: var(--color-primary-light, #8A0019);
+  }
+
+  .login-toggle:hover:not(:disabled) {
+    color: var(--color-primary, #710014);
+  }
+}
+

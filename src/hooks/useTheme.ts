@@ -18,15 +18,15 @@ export const useTheme = () => {
     if (stored && (stored === 'light' || stored === 'dark' || stored === 'system')) {
       return stored;
     }
-    // Default to system preference
-    return 'system';
+    // Default to light mode
+    return 'light';
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() => {
     if (theme === 'system') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    return theme;
+    return theme as 'light' | 'dark';
   });
 
   // Apply theme to document

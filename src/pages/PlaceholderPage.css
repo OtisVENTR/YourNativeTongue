@@ -1,0 +1,76 @@
+/**
+ * Placeholder Page Styles
+ * 
+ * Styles for placeholder pages that will be implemented later
+ */
+
+.placeholder-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  padding: 3rem;
+}
+
+.placeholder-page__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 24px;
+  color: var(--color-text-tertiary);
+}
+
+.placeholder-page__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-active) 100%);
+  border-radius: 50%;
+  font-family: var(--font-family-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.placeholder-page__title {
+  font-family: var(--font-family-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.placeholder-page__desc {
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  max-width: 400px;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+}
+
+.btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(113, 0, 20, 0.25);
+}
+
+/* Ensure primary buttons maintain white text when disabled */
+.btn--primary.btn--disabled {
+  color: #FFFFFF;
+}
+

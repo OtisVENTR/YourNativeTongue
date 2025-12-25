@@ -1,65 +1,71 @@
-## 2025-12-24
+## 2025-12-25
 
-### Session 1: Notion MCP Server Installation
+### Session 3: Dashboard Page Development (Task 6)
 **TL;DR:**
-- Installed @notionhq/notion-mcp-server globally
-- Successfully added 165 packages
-- Configured MCP settings with Notion server
+- Created complete dashboard layout with sidebar navigation and top header
+- Implemented usage stats, recent jobs list, and quick actions components
+- Added dark/light theme toggle with full design system integration
+- Created placeholder pages for future features
 
-**Files Modified:**
-- ~/.claude/mcp_settings.json
-
-### Session 2: Design System & React + Vite Setup
-**TL;DR:**
-- Created comprehensive design system markdown document (DESIGN_SYSTEM.md)
-- Set up React + Vite project structure with all necessary configuration files
-- Installed 277 packages including React 18.3.1, Vite 5.4.2, and development dependencies
-
-**Detailed Breakdown:**
-
-**Design System Document:**
-- Created `DESIGN_SYSTEM.md` as the single source of truth for all design and branding parameters
-- Documented complete color palette (primary, secondary, accent, semantic, and neutral colors)
-- Defined typography system with font families, sizes, weights, line heights, and letter spacing
-- Established 8px-based spacing system with comprehensive scale
-- Documented border radius, shadows, breakpoints, z-index scale, and animation guidelines
-- Included component specifications for buttons, inputs, and cards
-- Added accessibility guidelines and design token recommendations
-- Documented grid system, logo/branding assets section (to be defined), and usage notes
-
-**React + Vite Project Setup:**
-- Created `package.json` with React 18.3.1, React DOM, and Vite 5.4.2
-- Configured ESLint with React plugins for code quality
-- Set up `vite.config.js` with React plugin
-- Created project structure:
-  - `index.html` - Entry HTML file
-  - `src/main.jsx` - React application entry point
-  - `src/App.jsx` - Main App component
-  - `src/App.css` - App-specific styles
-  - `src/index.css` - Global styles
-  - `.eslintrc.cjs` - ESLint configuration
-  - `.gitignore` - Git ignore rules
-- Installed all dependencies successfully (277 packages total)
+**Details:**
+- **AppLayout Component**: Main layout wrapper with sidebar + header + content area
+- **Sidebar Component**: Collapsible navigation with YNT logo, nav items (Dashboard, Speakers, Upload, Jobs, Glossary), hover tooltips in collapsed state
+- **Header Component**: Breadcrumbs, page title, usage tracker (progress bar), theme toggle (sun/moon icons), settings button, profile dropdown with sign out
+- **Dashboard Page**: Welcome section with CTAs, 4-stat card grid (minutes used, jobs completed, in progress, speakers), recent jobs list with status icons, quick actions grid
+- **Data Fetching**: Supabase queries for user stats, job counts, speakers count, recent jobs
+- **Placeholder Pages**: Speakers, Upload, Jobs, Glossary, Settings, Profile (all with consistent design)
+- **Theme Support**: Full dark/light mode using CSS variables from design system
 
 **Files Created:**
-- `DESIGN_SYSTEM.md`
-- `package.json`
-- `vite.config.js`
-- `.eslintrc.cjs`
-- `index.html`
-- `src/main.jsx`
-- `src/App.jsx`
-- `src/App.css`
-- `src/index.css`
-- `.gitignore`
-
-### Session 3: Font CSS Generator Script Fix & Qlassy Font Setup
-**TL;DR:**
-- Converted generate-font-css.js from CommonJS to ES modules
-- Updated script to use correct font directory (src/assets/fonts)
-- Generated CSS for 6 Qlassy font variants (Regular, Semibold, Bold with italics)
-- Started development server on http://localhost:5174/
+- `src/components/layout/AppLayout.tsx` + CSS
+- `src/components/layout/Sidebar.tsx` + CSS
+- `src/components/layout/Header.tsx` + CSS
+- `src/components/layout/index.ts`
+- `src/pages/SpeakersPage.tsx`
+- `src/pages/UploadPage.tsx`
+- `src/pages/JobsPage.tsx`
+- `src/pages/GlossaryPage.tsx`
+- `src/pages/SettingsPage.tsx`
+- `src/pages/ProfilePage.tsx`
+- `src/pages/PlaceholderPage.css`
 
 **Files Modified:**
-- scripts/generate-font-css.js
-- src/styles/fonts.css (auto-generated)
+- `src/pages/DashboardPage.tsx` (complete rewrite)
+- `src/pages/DashboardPage.css` (complete rewrite)
+- `src/App.jsx` (added all routes)
+
+---
+
+### Session 2: Frontend Authentication System (Task 5)
+**TL;DR:**
+- Implemented complete authentication flow with login/signup
+- Created protected routes and useAuth hook
+- Built sign out functionality
+
+**Details:**
+- Created `useAuth` hook with session management, signIn, signUp, signOut methods
+- Built `LoginPage` with email/password forms, toggle between sign in/sign up
+- Created `ProtectedRoute` component that redirects unauthenticated users
+- Updated `App.jsx` with React Router and protected route wrappers
+- Integrated Supabase auth with TypeScript database types
+
+**Files Created:**
+- `src/hooks/useAuth.ts`
+- `src/pages/LoginPage.tsx` + CSS
+- `src/components/ProtectedRoute.tsx`
+
+**Files Modified:**
+- `src/lib/supabase.ts` (added Database type)
+- `src/App.jsx` (added routing)
+- `src/index.css` (fixed body styling)
+
+---
+
+### Session 1: GCloud Project Number Query & Translation API Glossary Creation
+**TL;DR:**
+- Retrieved project number for your-native-tongue GCP project (924058492016)
+- Created glossary "faith-terms-en-es" in Google Cloud Translation API
+- Glossary creation completed successfully with 51 terms (en→es)
+
+**Files Referenced:**
+- None (API operations only)
