@@ -76,10 +76,10 @@ interface RecentJob {
 }
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, organization } = useAuth();
   const [stats, setStats] = useState<UsageStats>({
     minutesUsed: 0,
-    minutesTotal: 100,
+    minutesTotal: 30,
     jobsCompleted: 0,
     jobsInProgress: 0,
     speakersCount: 0,
@@ -89,47 +89,40 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchDashboardData();
-  }, [user]);
+  }, [user, organization]);
 
   const fetchDashboardData = async () => {
-    if (!user) return;
+    if (!user || !organization) return;
 
     try {
-      // Fetch user stats
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .select('minutes_used_current_period, subscription_tier')
-        .eq('id', user.id)
-        .single();
+      // Fetch organization minutes (shared pool)
+      const minutesUsed = Number(organization.minutes_used) || 0;
+      const minutesTotal = organization.minutes_included || 30;
 
-      if (userError && userError.code !== 'PGRST116') {
-        console.error('Error fetching user data:', userError);
-      }
-
-      // Fetch job counts
+      // Fetch job counts for organization
       const { count: completedCount, error: completedError } = await supabase
         .from('jobs')
         .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
+        .eq('organization_id', organization.id)
         .eq('status', 'completed');
 
       const { count: inProgressCount, error: progressError } = await supabase
         .from('jobs')
         .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
+        .eq('organization_id', organization.id)
         .in('status', ['queued', 'processing_transcription', 'processing_translation', 'processing_tts', 'processing_finalize']);
 
-      // Fetch speakers count
+      // Fetch speakers count for organization
       const { count: speakersCount, error: speakersError } = await supabase
         .from('speakers')
         .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
+        .eq('organization_id', organization.id);
 
-      // Fetch recent jobs
+      // Fetch recent jobs for organization
       const { data: jobs, error: jobsError } = await supabase
         .from('jobs')
         .select('id, job_type, status, created_at, input_file_path')
-        .eq('user_id', user.id)
+        .eq('organization_id', organization.id)
         .order('created_at', { ascending: false })
         .limit(5);
 
@@ -137,17 +130,9 @@ export default function DashboardPage() {
         console.error('Error fetching jobs:', jobsError);
       }
 
-      // Determine minutes total based on subscription tier
-      const tierMinutes: Record<string, number> = {
-        free: 60,
-        basic: 300,
-        pro: 1000,
-        enterprise: 5000,
-      };
-
       setStats({
-        minutesUsed: userData?.minutes_used_current_period || 0,
-        minutesTotal: tierMinutes[userData?.subscription_tier || 'free'] || 60,
+        minutesUsed,
+        minutesTotal,
         jobsCompleted: completedCount || 0,
         jobsInProgress: inProgressCount || 0,
         speakersCount: speakersCount || 0,
@@ -229,7 +214,7 @@ export default function DashboardPage() {
               Welcome back{user?.email ? `, ${user.email.split('@')[0]}` : ''}!
             </h2>
             <p className="welcome__subtitle">
-              Here's an overview of your translation activity.
+              {organization ? `${organization.name} - ` : ''}Here's an overview of your translation activity.
             </p>
           </div>
           <div className="welcome__actions">

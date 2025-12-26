@@ -9,8 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 /* Welcome Section */
@@ -67,32 +66,46 @@
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  color: inherit; /* Allow specific button classes to set their own color */
 }
 
-.btn--primary {
+.btn--primary,
+a.btn--primary,
+button.btn--primary,
+.btn--primary * {
   background-color: var(--color-primary);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   box-shadow: 0 2px 8px rgba(113, 0, 20, 0.25);
 }
 
-.btn--primary:hover {
+.btn--primary:hover,
+a.btn--primary:hover,
+button.btn--primary:hover,
+.btn--primary:hover * {
   background-color: var(--color-primary-hover);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   box-shadow: 0 4px 12px rgba(113, 0, 20, 0.35);
   transform: translateY(-1px);
 }
 
-.btn--primary:active {
+.btn--primary:active,
+a.btn--primary:active,
+button.btn--primary:active,
+.btn--primary:active * {
   background-color: var(--color-primary-active);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   transform: translateY(0);
 }
 
 .btn--primary:disabled,
-.btn--primary.btn--disabled {
+.btn--primary.btn--disabled,
+a.btn--primary.btn--disabled,
+button.btn--primary:disabled,
+.btn--primary:disabled *,
+.btn--primary.btn--disabled * {
   opacity: 0.5;
   cursor: not-allowed;
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
 
 .btn--secondary {

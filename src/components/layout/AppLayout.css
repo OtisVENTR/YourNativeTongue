@@ -24,13 +24,14 @@
 
 .app-content {
   flex: 1;
-  padding: 2rem;
+  padding: 2rem 2rem;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--color-bg-primary);
   margin-left: 72px; /* Default collapsed sidebar width */
   margin-top: 72px; /* Header height */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
 }
 
 /* Adjust content margin when sidebar is hovered (expanded) */

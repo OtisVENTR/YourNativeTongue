@@ -56,16 +56,17 @@ export type Database = {
           input_duration_seconds: number | null
           input_file_path: string
           job_type: string
-          output_files: Json | null
+          organization_id: string | null
+          output_audio_path: string | null
+          output_caption_path: string | null
           processing_completed_at: string | null
           processing_started_at: string | null
-          retry_count: number
           source_language: string
           speaker_id: string
           status: string
-          target_languages: string[]
+          target_language: string | null
           transcript_text: string | null
-          translations: Json | null
+          translated_text: string | null
           user_id: string
         }
         Insert: {
@@ -76,16 +77,17 @@ export type Database = {
           input_duration_seconds?: number | null
           input_file_path: string
           job_type: string
-          output_files?: Json | null
+          organization_id?: string | null
+          output_audio_path?: string | null
+          output_caption_path?: string | null
           processing_completed_at?: string | null
           processing_started_at?: string | null
-          retry_count?: number
           source_language: string
           speaker_id: string
           status?: string
-          target_languages: string[]
+          target_language?: string | null
           transcript_text?: string | null
-          translations?: Json | null
+          translated_text?: string | null
           user_id: string
         }
         Update: {
@@ -96,19 +98,27 @@ export type Database = {
           input_duration_seconds?: number | null
           input_file_path?: string
           job_type?: string
-          output_files?: Json | null
+          organization_id?: string | null
+          output_audio_path?: string | null
+          output_caption_path?: string | null
           processing_completed_at?: string | null
           processing_started_at?: string | null
-          retry_count?: number
           source_language?: string
           speaker_id?: string
           status?: string
-          target_languages?: string[]
+          target_language?: string | null
           transcript_text?: string | null
-          translations?: Json | null
+          translated_text?: string | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "jobs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "jobs_speaker_id_fkey"
             columns: ["speaker_id"]
@@ -125,94 +135,156 @@ export type Database = {
           },
         ]
       }
+      organization_members: {
+        Row: {
+          created_at: string | null
+          id: string
+          organization_id: string | null
+          role: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          organization_id?: string | null
+          role: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          organization_id?: string | null
+          role?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          address: string | null
+          city: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          invite_code: string
+          minutes_included: number | null
+          minutes_used: number | null
+          name: string
+          phone: string | null
+          state: string | null
+          updated_at: string | null
+          website: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          invite_code: string
+          minutes_included?: number | null
+          minutes_used?: number | null
+          name: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string | null
+          website?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          invite_code?: string
+          minutes_included?: number | null
+          minutes_used?: number | null
+          name?: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string | null
+          website?: string | null
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       speakers: {
         Row: {
           created_at: string
           id: string
+          name: string
+          organization_id: string | null
+          role: string | null
           sample_duration_seconds: number | null
-          speaker_name: string
           training_status: string
           updated_at: string
-          user_id: string
           voice_clone_id: string | null
           voice_quality: string | null
         }
         Insert: {
           created_at?: string
           id?: string
+          name: string
+          organization_id?: string | null
+          role?: string | null
           sample_duration_seconds?: number | null
-          speaker_name: string
           training_status?: string
           updated_at?: string
-          user_id: string
           voice_clone_id?: string | null
           voice_quality?: string | null
         }
         Update: {
           created_at?: string
           id?: string
+          name?: string
+          organization_id?: string | null
+          role?: string | null
           sample_duration_seconds?: number | null
-          speaker_name?: string
           training_status?: string
           updated_at?: string
-          user_id?: string
           voice_clone_id?: string | null
           voice_quality?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "speakers_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "speakers_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
       }
       users: {
         Row: {
-          billing_period_end: string | null
-          billing_period_start: string | null
           created_at: string
           email: string
           full_name: string | null
           id: string
-          minutes_included: number
-          minutes_used_current_period: number
-          organization: string | null
-          plan_type: string
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
           updated_at: string
         }
         Insert: {
-          billing_period_end?: string | null
-          billing_period_start?: string | null
           created_at?: string
           email: string
           full_name?: string | null
           id: string
-          minutes_included?: number
-          minutes_used_current_period?: number
-          organization?: string | null
-          plan_type?: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Update: {
-          billing_period_end?: string | null
-          billing_period_start?: string | null
           created_at?: string
           email?: string
           full_name?: string | null
           id?: string
-          minutes_included?: number
-          minutes_used_current_period?: number
-          organization?: string | null
-          plan_type?: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -260,7 +332,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_invite_code: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never
@@ -393,4 +465,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-

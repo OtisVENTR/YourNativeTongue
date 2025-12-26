@@ -1,0 +1,227 @@
+/**
+ * Team Settings Page Styles
+ * 
+ * Styling for the team management page
+ */
+
+.team-settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.team-settings-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-settings-page__title {
+  font-family: var(--font-family-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.team-settings-page__invite-section {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.team-settings-page__invite-title {
+  font-family: var(--font-family-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.team-settings-page__invite-code-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-settings-page__invite-code {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 1rem;
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+.team-settings-page__invite-hint {
+  font-family: var(--font-family-body);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.team-settings-page__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-family: var(--font-family-body);
+  color: var(--color-text-secondary);
+}
+
+.team-settings-page__table-container {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.team-settings-page__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.team-settings-page__table thead {
+  background-color: var(--color-bg-tertiary);
+}
+
+.team-settings-page__table th {
+  font-family: var(--font-family-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.team-settings-page__table tbody tr {
+  border-bottom: 1px solid var(--color-border-primary);
+  transition: background-color 0.2s;
+}
+
+.team-settings-page__table tbody tr:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.team-settings-page__table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.team-settings-page__table td {
+  font-family: var(--font-family-body);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  padding: 1rem 1.5rem;
+}
+
+.team-settings-page__email {
+  color: var(--color-text-secondary);
+}
+
+.team-settings-page__role {
+  display: inline-block;
+  font-family: var(--font-family-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+
+.team-settings-page__role--owner {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.team-settings-page__role--admin {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.team-settings-page__role--member {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.team-settings-page__date {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.team-settings-page__empty {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: 3rem 1.5rem !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .team-settings-page__invite-section {
+    background-color: var(--color-bg-dark-secondary);
+    border-color: var(--color-border-dark);
+  }
+
+  .team-settings-page__invite-code {
+    background-color: var(--color-bg-dark-tertiary);
+    border-color: var(--color-border-dark);
+    color: var(--color-text-primary-dark);
+  }
+
+  .team-settings-page__table-container {
+    background-color: var(--color-bg-dark-secondary);
+    border-color: var(--color-border-dark);
+  }
+
+  .team-settings-page__table thead {
+    background-color: var(--color-bg-dark-tertiary);
+  }
+
+  .team-settings-page__table th {
+    border-color: var(--color-border-dark);
+    color: var(--color-text-secondary-dark);
+  }
+
+  .team-settings-page__table tbody tr {
+    border-color: var(--color-border-dark);
+  }
+
+  .team-settings-page__table tbody tr:hover {
+    background-color: var(--color-bg-dark-tertiary);
+  }
+
+  .team-settings-page__table td {
+    color: var(--color-text-primary-dark);
+  }
+
+  .team-settings-page__email {
+    color: var(--color-text-secondary-dark);
+  }
+
+  .team-settings-page__role--member {
+    background-color: #374151;
+    color: #F3F4F6;
+  }
+
+  .team-settings-page__date {
+    color: var(--color-text-secondary-dark);
+  }
+
+  .team-settings-page__empty {
+    color: var(--color-text-secondary-dark);
+  }
+}
+

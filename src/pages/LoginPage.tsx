@@ -4,9 +4,11 @@
  * Provides user authentication UI with email/password login and sign up.
  */
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../lib/supabase';
+import { ThemeToggle } from '../components/ThemeToggle';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -17,8 +19,23 @@ export default function LoginPage() {
   const [localError, setLocalError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { signIn, signUp, error: authError } = useAuth();
+  const { signIn, signUp, signOut, error: authError, user, loading } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    setIsSubmitting(false);
+  };
+
+  // Redirect if user is logged in and reset submitting state
+  useEffect(() => {
+    console.log('LoginPage useEffect - user:', user?.id, 'loading:', loading);
+    if (!loading && user) {
+      console.log('Redirecting to /org-setup');
+      setIsSubmitting(false);
+      navigate('/org-setup');
+    }
+  }, [user, loading, navigate]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,11 +68,22 @@ export default function LoginPage() {
           setIsSubmitting(false);
           return;
         }
-        // On successful sign up, show message and switch to sign in
+        // Check if user was auto-logged in (Supabase may auto-login after signup)
+        // Wait a moment for auth state to update in useAuth hook
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const { data: { user: signedUpUser } } = await supabase.auth.getUser();
+        if (signedUpUser) {
+          // User was auto-logged in, useEffect will handle redirect
+          // Just reset submitting state
+          setIsSubmitting(false);
+          return;
+        }
+        // User needs to verify email first
         alert('Sign up successful! Please check your email to verify your account.');
         setIsSignUp(false);
         setPassword('');
         setConfirmPassword('');
+        setIsSubmitting(false);
       } else {
         const { error } = await signIn(email, password);
         if (error) {
@@ -63,12 +91,12 @@ export default function LoginPage() {
           setIsSubmitting(false);
           return;
         }
-        // On successful sign in, redirect to dashboard
-        navigate('/dashboard');
+        // On successful sign in, redirect will happen via useEffect
+        // But reset submitting state in case redirect is delayed
+        setIsSubmitting(false);
       }
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : 'An unexpected error occurred');
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -77,6 +105,21 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
+      {user && (
+        <div className="login-logout">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="logout-button"
+            disabled={isSubmitting}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+      <div className="login-theme-toggle">
+        <ThemeToggle />
+      </div>
       <div className="login-container">
         <div className="login-header">
           <h1 className="login-title">Your Native Tongue</h1>

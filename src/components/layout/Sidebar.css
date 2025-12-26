@@ -33,16 +33,17 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1.5rem 0.5rem;
+  padding: 0 0.5rem;
   border-bottom: 1px solid var(--color-border-secondary);
-  min-height: 72px;
+  height: 72px;
   justify-content: center;
   transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
 }
 
 /* Expanded logo on hover */
 .sidebar:hover .sidebar__logo {
-  padding: 1.5rem 1rem;
+  padding: 0 1rem;
   justify-content: flex-start;
 }
 
@@ -112,7 +113,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem;
+  padding: 0.75rem 1.125rem; /* 12px top/bottom, 18px left/right for perfect centering in 72px sidebar */
   border-radius: 8px;
   color: var(--color-text-secondary);
   text-decoration: none;

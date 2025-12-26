@@ -95,7 +95,7 @@ body, p, span, div, a, button, input, textarea, select, label {
   font-family: var(--font-family-body);
 }
 
-button {
+button:not(.btn):not(.btn--secondary):not(.btn--text):not(.login-toggle):not(.login-button) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -103,17 +103,17 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--color-primary);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-button:hover {
+button:not(.btn):not(.btn--secondary):not(.btn--text):not(.login-toggle):not(.login-button):hover {
   background-color: var(--color-primary-hover);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
-button:active {
+button:not(.btn):not(.btn--secondary):not(.btn--text):not(.login-toggle):not(.login-button):active {
   background-color: var(--color-primary-active);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
 button:focus,
 button:focus-visible {

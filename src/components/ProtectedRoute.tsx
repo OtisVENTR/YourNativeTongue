@@ -3,6 +3,7 @@
  * 
  * Wraps routes that require authentication.
  * Redirects to /login if user is not authenticated.
+ * Redirects to /org-setup if user has no organization.
  */
 
 import { ReactNode } from 'react';
@@ -14,7 +15,7 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { user, loading } = useAuth();
+  const { user, organization, loading } = useAuth();
 
   // Show loading state while checking authentication
   if (loading) {
@@ -36,7 +37,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  // Render protected content if authenticated
+  // If logged in but no organization, redirect to setup
+  if (!organization) {
+    return <Navigate to="/org-setup" replace />;
+  }
+
+  // Render protected content if authenticated and has organization
   return <>{children}</>;
 }
 

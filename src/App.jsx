@@ -7,6 +7,7 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import OrganizationSetupPage from './pages/OrganizationSetupPage';
 import DashboardPage from './pages/DashboardPage';
 import SpeakersPage from './pages/SpeakersPage';
 import UploadPage from './pages/UploadPage';
@@ -14,6 +15,7 @@ import JobsPage from './pages/JobsPage';
 import GlossaryPage from './pages/GlossaryPage';
 import SettingsPage from './pages/SettingsPage';
 import ProfilePage from './pages/ProfilePage';
+import TeamSettingsPage from './pages/TeamSettingsPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -23,6 +25,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/org-setup" element={<OrganizationSetupPage />} />
 
         {/* Protected Routes */}
         <Route
@@ -81,11 +84,19 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings/team"
+          element={
+            <ProtectedRoute>
+              <TeamSettingsPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Default redirect */}
+        {/* Default redirect - ProtectedRoute will handle auth check */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         
-        {/* 404 fallback */}
+        {/* 404 fallback - ProtectedRoute will handle auth check */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
