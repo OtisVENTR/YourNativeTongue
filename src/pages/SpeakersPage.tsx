@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { AppLayout } from '../components/layout';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
+import { AddSpeakerModal } from '../components/AddSpeakerModal';
 import type { Speaker } from '../types';
 import './PlaceholderPage.css';
 
@@ -15,10 +16,33 @@ export default function SpeakersPage() {
   const { organization, role } = useAuth();
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (organization) {
       fetchSpeakers();
+      
+      // Subscribe to speaker updates for real-time status changes
+      const channel = supabase
+        .channel('speakers-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'speakers',
+            filter: `organization_id=eq.${organization.id}`,
+          },
+          (payload) => {
+            console.log('Speaker update received:', payload);
+            fetchSpeakers(); // Refresh speakers list
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [organization]);
 
@@ -43,6 +67,10 @@ export default function SpeakersPage() {
 
   const canManageSpeakers = role === 'owner' || role === 'admin';
 
+  const handleSpeakerAdded = () => {
+    fetchSpeakers();
+  };
+
   return (
     <AppLayout 
       pageTitle="Speakers" 
@@ -55,7 +83,10 @@ export default function SpeakersPage() {
         <div className="speakers-page__header">
           <h2 className="speakers-page__title">Voice Profiles</h2>
           {canManageSpeakers && (
-            <button className="btn btn--primary" disabled>
+            <button 
+              className="btn btn--primary" 
+              onClick={() => setIsModalOpen(true)}
+            >
               Add Speaker
             </button>
           )}
@@ -82,8 +113,11 @@ export default function SpeakersPage() {
                 : 'No speakers have been added to your organization yet.'}
             </p>
             {canManageSpeakers && (
-              <button className="btn btn--primary btn--disabled" disabled>
-                Coming Soon
+              <button 
+                className="btn btn--primary"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Add Speaker
               </button>
             )}
           </div>
@@ -102,11 +136,31 @@ export default function SpeakersPage() {
                     {speaker.training_status}
                   </span>
                 </div>
+                {speaker.sample_duration_seconds && (
+                  <div className="speaker-card__details">
+                    <div className="speaker-card__detail-item">
+                      <span>Sample Duration:</span>
+                      <span>{Math.floor(speaker.sample_duration_seconds / 60)}:{(speaker.sample_duration_seconds % 60).toString().padStart(2, '0')}</span>
+                    </div>
+                    <div className="speaker-card__detail-item">
+                      <span>Created:</span>
+                      <span>{new Date(speaker.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {canManageSpeakers && (
+        <AddSpeakerModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={handleSpeakerAdded}
+        />
+      )}
     </AppLayout>
   );
 }

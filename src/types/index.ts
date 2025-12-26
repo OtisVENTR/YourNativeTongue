@@ -37,7 +37,7 @@ export interface Speaker {
   name: string
   role: 'pastor' | 'worship_leader' | 'guest_speaker'
   voice_clone_id: string | null
-  training_status: 'pending' | 'ready' | 'failed'
+  training_status: 'pending' | 'training' | 'ready' | 'failed'
   sample_duration_seconds: number | null
   created_at: string
 }

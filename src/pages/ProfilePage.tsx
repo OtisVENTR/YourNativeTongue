@@ -12,11 +12,10 @@ import { useUserProfile } from '../hooks/useUserProfile';
 import './ProfilePage.css';
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, organization: userOrganization, role } = useAuth();
   const { profile, loading: profileLoading, error: profileError, updateProfile } = useUserProfile(user?.id);
   
   const [fullName, setFullName] = useState('');
-  const [organization, setOrganization] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -25,7 +24,6 @@ export default function ProfilePage() {
   useEffect(() => {
     if (profile) {
       setFullName(profile.full_name || '');
-      setOrganization(profile.organization || '');
     }
   }, [profile]);
 
@@ -38,7 +36,6 @@ export default function ProfilePage() {
     try {
       const { error } = await updateProfile({
         full_name: fullName.trim() || null,
-        organization: organization.trim() || null,
       });
 
       if (error) {
@@ -150,19 +147,22 @@ export default function ProfilePage() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="organization" className="form-label">
-                  Organization
+                <label htmlFor="organizationName" className="form-label">
+                  Church Organization
                 </label>
                 <input
-                  id="organization"
+                  id="organizationName"
                   type="text"
-                  value={organization}
-                  onChange={(e) => setOrganization(e.target.value)}
-                  className="form-input"
-                  placeholder="Enter your organization"
-                  disabled={isSubmitting}
+                  value={userOrganization?.name || 'No organization'}
+                  className="form-input form-input--readonly"
+                  disabled
+                  readOnly
                 />
-                <p className="form-hint">Optional: Your company or organization name</p>
+                <p className="form-hint">
+                  {userOrganization 
+                    ? `Your role: ${role || 'member'}` 
+                    : 'You are not a member of any organization. Go to Settings to join or create one.'}
+                </p>
               </div>
             </div>
 

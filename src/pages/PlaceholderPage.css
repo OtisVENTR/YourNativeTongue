@@ -178,3 +178,26 @@
   color: #991B1B;
 }
 
+.speaker-card__status--training {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.speaker-card__details {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-primary);
+  font-family: var(--font-family-body);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.speaker-card__detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

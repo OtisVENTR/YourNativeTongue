@@ -1,5 +1,53 @@
 ## 2025-12-25
 
+### Session 12: Speaker Profile Creation (Task 7)
+**TL;DR:**
+- Implemented complete speaker profile creation flow with voice sample upload
+- Created AddSpeakerModal component with form validation and file upload
+- Built FileUpload component with drag-and-drop, validation (type, size, duration)
+- Created train-voice Edge Function to integrate with ElevenLabs voice cloning API
+- Updated storage RLS policies for organization-based voice-samples bucket access
+- Added Realtime subscriptions for training status updates
+- Enhanced SpeakersPage UI with status badges, sample duration, and created date display
+
+**Details:**
+- **New Components**:
+  - `src/components/FileUpload.tsx` - Reusable file upload with drag-and-drop, file validation (MP3/WAV, 1-10 min, max 50MB), and upload progress
+  - `src/components/AddSpeakerModal.tsx` - Modal for adding speakers with name, role, and voice sample upload
+  - `src/components/FileUpload.css` & `AddSpeakerModal.css` - Component styling following design system
+
+- **Edge Functions**:
+  - `supabase/functions/train-voice/index.ts` - Edge Function that downloads voice samples from storage, calls ElevenLabs API to create voice clones, and updates speaker records with voice_clone_id and training_status
+
+- **Database/Storage**:
+  - Updated `voice-samples` storage bucket RLS policies to use organization_id-based access instead of user_id
+  - Migration: `update_voice_samples_storage_rls` - Allows organization members to upload/read voice samples within their organization
+
+- **UI Enhancements**:
+  - Enabled "Add Speaker" button on SpeakersPage (previously disabled)
+  - Added Realtime subscriptions to automatically update speaker list when training status changes
+  - Enhanced speaker cards with status badges (pending/training/ready/failed) with color coding
+  - Added sample duration and created date display to speaker cards
+  - Added "training" status to TypeScript types and CSS styling
+
+- **Features**:
+  - Voice sample validation: File type (MP3/WAV), size (max 50MB), duration (1-10 minutes)
+  - Audio duration extraction using Web Audio API
+  - Automatic voice training trigger after speaker creation
+  - Training status tracking: pending → training → ready/failed
+  - Permission checks: Only owners/admins can add speakers and train voices
+
+**Files Created:**
+- `src/components/FileUpload.tsx` + CSS
+- `src/components/AddSpeakerModal.tsx` + CSS
+- `supabase/functions/train-voice/index.ts`
+- `supabase/migrations/update_voice_samples_storage_rls.sql` (applied via migration)
+
+**Files Modified:**
+- `src/pages/SpeakersPage.tsx` (enabled Add Speaker button, added modal integration, added Realtime subscriptions, enhanced speaker card display)
+- `src/pages/PlaceholderPage.css` (added training status styling, speaker card details styling)
+- `src/types/index.ts` (added "training" status to Speaker interface)
+
 ### Session 11: Google Maps Places Autocomplete Integration
 **TL;DR:**
 - Implemented Google Maps Places Autocomplete for address input
